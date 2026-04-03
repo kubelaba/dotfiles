@@ -24,3 +24,6 @@ RUN echo 'eval "$(mise activate bash)"' >> /home/vscode/.bashrc && \
     echo 'set -o vi' >> /home/vscode/.bashrc && \
     echo 'eval "$(mise activate zsh)"' >> /home/vscode/.zshrc && \
     echo 'set -o vi' >> /home/vscode/.zshrc
+
+# Set default shell to zsh
+RUN chsh -s $(which zsh) vscode

@@ -1,7 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-# Bootstrap chezmoi if not already initialized
+/usr/local/bin/mise trust /workspaces/ubuntu/mise.toml
+/usr/local/bin/mise install
+
 if [ ! -d "$HOME/.local/share/chezmoi/.git" ]; then
     sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:kubelaba/dotfiles.git
 else
