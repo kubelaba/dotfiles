@@ -27,3 +27,9 @@ RUN echo 'eval "$(mise activate bash)"' >> /home/vscode/.bashrc && \
     echo 'set -o vi' >> /home/vscode/.bashrc && \
     echo 'eval "$(mise activate zsh)"' >> /home/vscode/.zshrc && \
     echo 'set -o vi' >> /home/vscode/.zshrc
+
+# Trust mise configs
+RUN mkdir -p /root/.config/mise && \
+    echo '[settings]\nparanoid = false' > /root/.config/mise/config.toml && \
+    mkdir -p /home/vscode/.config/mise && \
+    echo '[settings]\nparanoid = false' > /home/vscode/.config/mise/config.toml
