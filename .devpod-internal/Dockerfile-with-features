@@ -1,0 +1,52 @@
+# syntax=docker.io/docker/dockerfile:1.4
+ARG _DEV_CONTAINERS_BASE_IMAGE=placeholder
+FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04 AS dev_container_auto_added_stage_label
+
+# Install system packages
+RUN apt-get update && apt-get install -y \
+    tmux \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install mise
+COPY --from=jdxcode/mise /usr/local/bin/mise /usr/local/bin/mise
+
+# Install DevPod
+RUN curl -L -o /usr/local/bin/devpod "https://github.com/loft-sh/devpod/releases/latest/download/devpod-linux-amd64" && \
+    chmod +x /usr/local/bin/devpod
+
+# Activate mise + vi mode in shells
+RUN echo 'eval "$(mise activate bash)"' >> /home/vscode/.bashrc && \
+    echo 'set -o vi' >> /home/vscode/.bashrc && \
+    echo 'eval "$(mise activate zsh)"' >> /home/vscode/.zshrc && \
+    echo 'set -o vi' >> /home/vscode/.zshrc
+
+FROM $_DEV_CONTAINERS_BASE_IMAGE AS dev_containers_target_stage
+
+USER root
+
+COPY ./.devpod-internal/ /tmp/build-features/
+RUN chmod -R 0755 /tmp/build-features && ls /tmp/build-features
+
+RUN \
+echo "_CONTAINER_USER_HOME=$(getent passwd root | cut -d: -f6)" >> /tmp/build-features/devcontainer-features.builtin.env && \
+echo "_REMOTE_USER_HOME=$(getent passwd vscode | cut -d: -f6)" >> /tmp/build-features/devcontainer-features.builtin.env
+
+
+RUN cd /tmp/build-features/0 \
+&& chmod +x ./devcontainer-features-install.sh \
+&& ./devcontainer-features-install.sh
+
+ENV DOCKER_BUILDKIT=1
+RUN cd /tmp/build-features/1 \
+&& chmod +x ./devcontainer-features-install.sh \
+&& ./devcontainer-features-install.sh
+
+
+RUN cd /tmp/build-features/2 \
+&& chmod +x ./devcontainer-features-install.sh \
+&& ./devcontainer-features-install.sh
+
+
+
+ARG _DEV_CONTAINERS_IMAGE_USER=root
+USER $_DEV_CONTAINERS_IMAGE_USER
