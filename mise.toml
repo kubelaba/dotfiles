@@ -1,0 +1,8 @@
+[tools]
+python = "3.12"
+terraform = "latest"
+node = "20"
+chezmoi = "latest"
+
+[env]
+ENVIRONMENT = "development"
