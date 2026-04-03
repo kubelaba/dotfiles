@@ -1,5 +1,10 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
+# Install system packages
+RUN apt-get update && apt-get install -y \
+    tmux \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install mise
 COPY --from=jdxcode/mise /usr/local/bin/mise /usr/local/bin/mise
 
