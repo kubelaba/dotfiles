@@ -1,7 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+# Trust all mise configs
+/usr/local/bin/mise trust --all
 /usr/local/bin/mise trust /workspaces/ubuntu/mise.toml
+
+# Install mise tools
 /usr/local/bin/mise install
 
 # Install pure zsh prompt
