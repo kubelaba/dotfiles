@@ -12,7 +12,7 @@
   "remoteEnv": {
     "PATH": "/usr/local/bin:${containerEnv:PATH}"
   },
-  "postCreateCommand": "mise install",
+  "postCreateCommand": "scripts/setup",
   "customizations": {
     "vscode": {
       "extensions": [
