@@ -1,6 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+# Change default shell to zsh if available
+if command -v zsh >/dev/null; then
+    chsh -s $(which zsh) $USER
+fi
+
 # Bootstrap chezmoi if not already initialized
 if [ ! -d "$HOME/.local/share/chezmoi/.git" ]; then
     sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:kubelaba/dotfiles.git
