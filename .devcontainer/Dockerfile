@@ -12,18 +12,18 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install LazyVim
-RUN git clone https://github.com/LazyVim/starter /root/.config/nvim && \
-    rm -rf /root/.config/nvim/.git
-
 # Install mise
 COPY --from=jdxcode/mise /usr/local/bin/mise /usr/local/bin/mise
+
+# Install DevPod
+RUN curl -L -o /usr/local/bin/devpod "https://github.com/loft-sh/devpod/releases/latest/download/devpod-linux-amd64" && \
+    chmod +x /usr/local/bin/devpod
+
+# Set default shell to zsh
+RUN chsh -s $(which zsh) vscode
 
 # Activate mise + vi mode in shells
 RUN echo 'eval "$(mise activate bash)"' >> /home/vscode/.bashrc && \
     echo 'set -o vi' >> /home/vscode/.bashrc && \
     echo 'eval "$(mise activate zsh)"' >> /home/vscode/.zshrc && \
     echo 'set -o vi' >> /home/vscode/.zshrc
-
-# Set default shell to zsh
-RUN chsh -s $(which zsh) vscode
