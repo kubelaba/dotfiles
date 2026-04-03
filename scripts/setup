@@ -4,8 +4,21 @@ set -euo pipefail
 /usr/local/bin/mise trust /workspaces/ubuntu/mise.toml
 /usr/local/bin/mise install
 
+# Install pure zsh prompt
+if [ ! -d "$HOME/.zsh/pure" ]; then
+    mkdir -p "$HOME/.zsh"
+    git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
+fi
+
+# Install LazyVim
+if [ ! -d "$HOME/.config/nvim" ]; then
+    git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"
+    rm -rf "$HOME/.config/nvim/.git"
+fi
+
+# Apply chezmoi dotfiles
 if [ ! -d "$HOME/.local/share/chezmoi/.git" ]; then
-    sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:kubelaba/dotfiles.git
+    sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/kubelaba/dotfiles.git
 else
     chezmoi apply
 fi
