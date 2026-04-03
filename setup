@@ -1,16 +1,20 @@
 #!/bin/bash
 set -euo pipefail
 
-# Change default shell to zsh if available
-if command -v zsh >/dev/null; then
-    chsh -s $(which zsh) $USER
-fi
-
 # Bootstrap chezmoi if not already initialized
 if [ ! -d "$HOME/.local/share/chezmoi/.git" ]; then
-    sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:kubelaba/dotfiles.git
+    sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/kubelaba/dotfiles.git
 else
     chezmoi apply
+fi
+
+# Install pure zsh prompt
+if [ ! -d "$HOME/.zsh" ]; then
+    mkdir -p "$HOME/.zsh"
+fi
+
+if [ ! -d "$HOME/.zsh/pure" ]; then
+    git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
 fi
 
 exit 0
