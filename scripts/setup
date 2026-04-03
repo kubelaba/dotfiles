@@ -2,7 +2,3 @@
 
 /usr/local/bin/mise trust /workspaces/ubuntu/mise.toml
 /usr/local/bin/mise install
-
-# Setup DevPod docker provider
-devpod provider add docker 2>/dev/null || true
-devpod provider use docker

@@ -1,9 +1,4 @@
 [tools]
-python = "3.12"
-terraform = "latest"
-node = "20"
 chezmoi = "latest"
 kubectl = "latest"
-
-[env]
-ENVIRONMENT = "development"
+terraform = "latest"
