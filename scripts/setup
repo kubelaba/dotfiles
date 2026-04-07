@@ -1,13 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-# Trust all mise configs
+# Trust and install mise tools
 /usr/local/bin/mise trust --all
-/usr/local/bin/mise trust /workspaces/ubuntu/mise.toml
-/usr/local/bin/mise trust ~/mise.toml
-
-# Install mise tools
-/usr/local/bin/mise install
+/usr/local/bin/mise trust /workspaces/dotfiles/mise.toml
+/usr/local/bin/mise install --cd /workspaces/dotfiles
 
 # Install pure zsh prompt
 if [ ! -d "$HOME/.zsh/pure" ]; then
