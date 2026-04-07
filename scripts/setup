@@ -18,11 +18,11 @@ if [ ! -d "$HOME/.config/nvim" ]; then
     rm -rf "$HOME/.config/nvim/.git"
 fi
 
-# Apply chezmoi dotfiles
+# Apply chezmoi - skip init if already exists
 if [ ! -d "$HOME/.local/share/chezmoi/.git" ]; then
-    sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/kubelaba/dotfiles.git
+    chezmoi init --apply --no-tty https://github.com/kubelaba/dotfiles.git
 else
-    chezmoi apply
+    chezmoi apply --no-tty
 fi
 
 exit 0
