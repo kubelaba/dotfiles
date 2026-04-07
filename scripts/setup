@@ -6,6 +6,9 @@ set -euo pipefail
 /usr/local/bin/mise trust /workspaces/dotfiles/mise.toml
 /usr/local/bin/mise install --cd /workspaces/dotfiles
 
+# Add mise shims to PATH
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+
 # Install pure zsh prompt
 if [ ! -d "$HOME/.zsh/pure" ]; then
     mkdir -p "$HOME/.zsh"
@@ -18,11 +21,11 @@ if [ ! -d "$HOME/.config/nvim" ]; then
     rm -rf "$HOME/.config/nvim/.git"
 fi
 
-# Apply chezmoi - skip init if already exists
+# Apply chezmoi
 if [ ! -d "$HOME/.local/share/chezmoi/.git" ]; then
-    chezmoi init --apply --no-tty https://github.com/kubelaba/dotfiles.git
+    $HOME/.local/share/mise/shims/chezmoi init --apply --no-tty https://github.com/kubelaba/dotfiles.git
 else
-    chezmoi apply --no-tty
+    $HOME/.local/share/mise/shims/chezmoi apply --no-tty
 fi
 
 exit 0
