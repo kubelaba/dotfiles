@@ -3,3 +3,4 @@ mise.local.toml
 __pycache__/
 *.pyc
 .DS_Store
+.devpod-internal/
